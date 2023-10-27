@@ -228,8 +228,8 @@ Name=eth0
 KernelCommandLine=ipv6.disable=1
 
 [Network]
-DHCP=yes               # if you prefer a static IPv4 instead of DHCP comment out this line
-#Address=192.168.2.121 # if you prefer a static IPv4 instead of DHCP uncomment this line 
+DHCP=yes                  # if you prefer a static IPv4 instead of DHCP comment out this line
+#Address=192.168.2.121/24 # if you prefer a static IPv4 instead of DHCP uncomment this line 
 IPMasquerade=ipv4
 IPForward=yes
 
@@ -248,9 +248,9 @@ Name=eth0
 KernelCommandLine=!ipv6.disable=1
 
 [Network]
-DHCP=yes               # if you prefer a static IPv4 instead of DHCP comment out this line
-#Address=192.168.2.121 # if you prefer a static IPv4 instead of DHCP uncomment this line 
-Address=fd00:41::1/64  # It is necessary to set a static IPv6 because TOR cannot listen on link-local addresses and there is no guarantee that we will get an IPv6 via DHCPv6 or IPv6 auto-configuration.
+DHCP=yes                  # if you prefer a static IPv4 instead of DHCP comment out this line
+#Address=192.168.2.121/24 # if you prefer a static IPv4 instead of DHCP uncomment this line 
+Address=fd00:41::1/64     # It is necessary to set a static IPv6 because TOR cannot listen on link-local addresses and there is no guarantee that we will get an IPv6 via DHCPv6 or IPv6 auto-configuration.
 IPMasquerade=both
 IPForward=yes
 
