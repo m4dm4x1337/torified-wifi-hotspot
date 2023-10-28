@@ -494,7 +494,7 @@ The `overlay-root` package is not an official Debian package and must be [downlo
 You can then copy it to the Raspberry Pi using `scp`:
 
 ```shell
-scp overlay-root_1.0_all.deb root@192.168.2.121:/tmp/
+scp overlay-root_3.0.0_all.deb root@192.168.2.121:/tmp/
 ```
 
 Now you can install all at once:
@@ -512,7 +512,7 @@ apt install \
   usbutils \
   wget \
   zram-tools \
-  /tmp/overlay-root_1.0_all.deb
+  /tmp/overlay-root_3.0.0_all.deb
 ```
 
 It may take some time since `update-initramfs` will be triggered.
