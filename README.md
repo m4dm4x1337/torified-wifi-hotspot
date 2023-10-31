@@ -174,6 +174,18 @@ Now update the software packages using this command:
 apt-get update && apt-get upgrade
 ```
 
+Now make sure that the package `systemd-resolved` is installed:
+
+```shell
+apt install systemd-resolved
+```
+
+Also make sure that the `systemd-resolved` service is enabled and started.
+
+```shell
+systemctl enable systemd-resolved && systemctl start systemd-resolved
+```
+
 Finally reboot using this command:
 
 ```shell
@@ -229,13 +241,16 @@ KernelCommandLine=ipv6.disable=1
 
 [Network]
 DHCP=yes                  # if you prefer a static IPv4 instead of DHCP comment out this line
-#Address=192.168.2.121/24 # if you prefer a static IPv4 instead of DHCP uncomment this line 
+#Address=192.168.2.121/24 # if you prefer a static IPv4 instead of DHCP uncomment this line
+#Gateway=192.168.2.1      # if you prefer a static IPv4 instead of DHCP uncomment this line
+DNS=208.67.222.222
+DNS=208.67.220.220
 IPMasquerade=ipv4
 IPForward=yes
 
-
-[DHCP]
-RouteMetric=0
+[DHCPv4]
+UseDNS=no
+UseNTP=no
 NETWORK
 ```
 
@@ -249,13 +264,20 @@ KernelCommandLine=!ipv6.disable=1
 
 [Network]
 DHCP=yes                  # if you prefer a static IPv4 instead of DHCP comment out this line
-#Address=192.168.2.121/24 # if you prefer a static IPv4 instead of DHCP uncomment this line 
+#Address=192.168.2.121/24 # if you prefer a static IPv4 instead of DHCP uncomment this line
+#Gateway=192.168.2.1      # if you prefer a static IPv4 instead of DHCP uncomment this line
+DNS=208.67.222.222
+DNS=208.67.220.220
 Address=fd00:41::1/64     # It is necessary to set a static IPv6 because TOR cannot listen on link-local addresses and there is no guarantee that we will get an IPv6 via DHCPv6 or IPv6 auto-configuration.
+#Gateway=
+DNS=2620:119:35::35
+DNS=2620:119:53::53
 IPMasquerade=both
 IPForward=yes
 
-[DHCP]
-RouteMetric=0
+[DHCPv4]
+UseDNS=no
+UseNTP=no
 NETWORK
 ```
 
@@ -273,6 +295,8 @@ DHCPServer=yes
 IPMasquerade=ipv4
 IPForward=yes
 Address=192.168.42.1/24 # The IPv4 address of our hotspot
+DNS=208.67.222.222
+DNS=208.67.220.220
 
 [DHCPServer]
 EmitDNS=yes
@@ -306,7 +330,11 @@ IPv6SendRA=yes
 IPv6PrivacyExtensions=no
 IPv6DuplicateAddressDetection=1
 Address=192.168.42.1/24 # The IPv4 address of our hotspot
-Address=fd00:42::1/64
+DNS=208.67.222.222
+DNS=208.67.220.220
+Address=fd00:42::1/64   # The IPv6 address of our hotspot
+DNS=2620:119:35::35
+DNS=2620:119:53::53
 
 [DHCPServer]
 EmitDNS=yes
@@ -335,7 +363,7 @@ DNS=2620:119:53::53 # OpenDNS server #2
 NETWORK
 ```
 
-Make sure your router supports DHCP or change the `eth0` configuration so that a static IPv4 address is used (see the comment in the file), otherwise you may loose the connection after the next command, and then you will have to change or remove the files on another computer. Restart `systemd-networkd` using this command:
+Make sure that your router supports DHCP or change the `eth0` configuration so that a static IPv4 configuration is used (see the comment in the file), otherwise you may loose the connection after the next command, and then you will have to change or remove the files on another computer. Restart `systemd-networkd` using this command:
 
 ```shell
 systemctl restart systemd-networkd.service
